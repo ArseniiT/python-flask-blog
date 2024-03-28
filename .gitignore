@@ -1,0 +1,32 @@
+# Virtual environment
+venv/
+*.pyc
+
+# Environment variables
+.env
+
+# Dependency directories
+__pycache__/
+node_modules/
+
+# IDE-specific files
+.vscode/
+.idea/
+
+# Compiled Python files
+*.pyo
+*.pyd
+
+# Log files
+*.log
+
+# Temporary files
+*.bak
+*.swp
+
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*$py.class
+
+# Database files
+db.sqlite
