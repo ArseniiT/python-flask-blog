@@ -41,5 +41,11 @@ def user(name, id):
     return f'Hello, {name}, your id is {id}!'
 
 
+# http://localhost:5000/create-article
+@app.route('/create-article')
+def create_article():
+    return render_template('create-article.html')
+
+
 if __name__ == '__main__':
     app.run()
