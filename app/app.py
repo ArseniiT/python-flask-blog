@@ -1,7 +1,20 @@
 from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
 from services.knight import find_steps_to_target
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+db = SQLAlchemy(app)
+
+
+class Article(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    date = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+    def __repr__(self):
+        return f'Article {self.id}'
 
 
 @app.route('/')
