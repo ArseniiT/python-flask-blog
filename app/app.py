@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from services.knight import find_steps_to_target
 
 app = Flask(__name__)
@@ -7,12 +7,12 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/home')
 def hello_world():
-    return 'Welcome to my page!'
+    return render_template('index.html')
 
 
 @app.route('/about')
 def about():
-    return '<h1>About</h1>'
+    return render_template('about.html')
 
 
 # http://localhost:5000/knight/steps/3/4
@@ -20,6 +20,12 @@ def about():
 def knight_steps(target_x, target_y):
     steps = find_steps_to_target(target_x, target_y)
     return f'Steps of Knight to target ({target_x}, {target_y}): {steps}'
+
+
+# http://localhost:5000/user/John/123
+@app.route('/user/<string:name>/<int:id>')
+def user(name, id):
+    return f'Hello, {name}, your id is {id}!'
 
 
 if __name__ == '__main__':
