@@ -29,6 +29,12 @@ def about():
     return render_template('about.html')
 
 
+@app.route('/posts')
+def posts():
+    articles = Article.query.order_by(Article.date.desc()).all()
+    return render_template('posts.html', articles=articles)
+
+
 # http://localhost:5000/knight/steps/3/4
 @app.route('/knight/steps/<int:target_x>/<int:target_y>')
 def knight_steps(target_x, target_y):
@@ -53,7 +59,7 @@ def create_article():
         try:
             db.session.add(article)
             db.session.commit()
-            return redirect('/home')
+            return redirect('/posts')
             # return f'Article "{title}" created successfully!'
         except:
             return 'There was an issue adding your article'
