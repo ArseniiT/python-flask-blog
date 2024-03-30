@@ -1,9 +1,10 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from services.knight import find_steps_to_target
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
@@ -42,9 +43,22 @@ def user(name, id):
 
 
 # http://localhost:5000/create-article
-@app.route('/create-article')
+@app.route('/create-article', methods=['GET', 'POST'])
 def create_article():
-    return render_template('create-article.html')
+    if request.method == 'POST':
+        title = request.form['title']
+        content = request.form['content']
+        article = Article(title=title, content=content)
+
+        try:
+            db.session.add(article)
+            db.session.commit()
+            return redirect('/home')
+            # return f'Article "{title}" created successfully!'
+        except:
+            return 'There was an issue adding your article'
+    else:
+        return render_template('create-article.html')
 
 
 if __name__ == '__main__':
