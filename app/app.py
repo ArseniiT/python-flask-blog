@@ -35,6 +35,12 @@ def posts():
     return render_template('posts.html', articles=articles)
 
 
+@app.route('/posts/<int:id>')
+def post_detail(id):
+    article = Article.query.get(id)
+    return render_template('posts_detail.html', article=article)
+
+
 # http://localhost:5000/knight/steps/3/4
 @app.route('/knight/steps/<int:target_x>/<int:target_y>')
 def knight_steps(target_x, target_y):
