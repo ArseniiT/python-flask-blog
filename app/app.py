@@ -38,7 +38,19 @@ def posts():
 @app.route('/posts/<int:id>')
 def post_detail(id):
     article = Article.query.get(id)
-    return render_template('posts_detail.html', article=article)
+    return render_template('posts-detail.html', article=article)
+
+
+@app.route('/posts/<int:id>/delete')
+def post_delete(id):
+    article = Article.query.get_or_404(id)
+
+    try:
+        db.session.delete(article)
+        db.session.commit()
+        return redirect('/posts')
+    except:
+        return 'There was an issue deleting your article'
 
 
 # http://localhost:5000/knight/steps/3/4
@@ -52,6 +64,24 @@ def knight_steps(target_x, target_y):
 @app.route('/user/<string:name>/<int:id>')
 def user(name, id):
     return f'Hello, {name}, your id is {id}!'
+
+
+# http://localhost:5000/create-article
+@app.route('/posts/<int:id>/edit', methods=['GET', 'POST'])
+def post_update(id):
+    article = Article.query.get(id)
+
+    if request.method == 'POST':
+        article.title = request.form['title']
+        article.content = request.form['content']
+
+        try:
+            db.session.commit()
+            return redirect('/posts')
+        except:
+            return 'There was an issue updating your article'
+    else:
+        return render_template('post-update.html', article=article)
 
 
 # http://localhost:5000/create-article

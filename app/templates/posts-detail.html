@@ -11,6 +11,8 @@
     <div class="alert alert-info">
         <p>{{ article.content }}</p>
         <p>Wrote at: {{ article.date.date() }}</p>
+        <button class="btn btn-warning"><a href="/posts/{{ article.id }}/edit" class="text-white">Edit</a></button>
+        <button class="btn btn-danger"><a href="/posts/{{ article.id }}/delete" class="text-white">Delete</a></button>
     </div>
 
 </div>
